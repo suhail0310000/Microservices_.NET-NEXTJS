@@ -22,14 +22,33 @@ try
 
     // this seeding is only for the template to bootstrap the DB and users.
     // in production you will likely want a different approach.
-    if (args.Contains("/seed"))
+    SeedData.EnsureSeedData(app);
+    app.UseIdentityServer();
+    // Configure CORS and CSP
+    if (!app.Environment.IsDevelopment())
     {
-        Log.Information("Seeding database...");
-        SeedData.EnsureSeedData(app);
-        Log.Information("Done seeding database. Exiting.");
-        return;
+        app.UseExceptionHandler("/Error");
+        app.UseHsts();
+        // Set a strict CSP for production
+        app.Use(async (context, next) =>
+        {
+            context.Response.Headers.Add(
+                "Content-Security-Policy",
+                "default-src 'self'; connect-src 'self' wss://localhost:5000;");
+            await next();
+        });
     }
-
+    else
+    {
+        // Set a more permissive CSP for development
+        app.Use(async (context, next) =>
+        {
+            context.Response.Headers.Add(
+                "Content-Security-Policy",
+                "default-src 'self'; connect-src 'self' ws://localhost:* wss://localhost:*;");
+            await next();
+        });
+    }
     app.Run();
 }
 catch (Exception ex) when (
