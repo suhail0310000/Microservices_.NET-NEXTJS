@@ -39,7 +39,7 @@ namespace AuctionService.Data
         {
             var query = _context.Auctions.OrderBy(x => x.Item.Make).AsQueryable();
 
-            if (!string.IsNullOrEmpty(date))
+            if (!string.IsNullOrEmpty(date)) 
             {
                 query = query.Where(x => x.UpdatedAt.CompareTo(DateTime.Parse(date).ToUniversalTime()) > 0);
             }
