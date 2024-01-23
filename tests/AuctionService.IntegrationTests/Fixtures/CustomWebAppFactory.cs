@@ -1,5 +1,4 @@
 ﻿using AuctionService.Data;
-using AuctionService.IntegrationTests.Util;
 using MassTransit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -22,7 +21,7 @@ public class CustomWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetim
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.ConfigureTestServices(services =>
+        builder.ConfigureTestServices(services => 
         {
             services.RemoveDbContext<AuctionDbContext>();
 

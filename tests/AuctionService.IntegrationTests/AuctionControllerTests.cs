@@ -2,7 +2,6 @@
 using System.Net.Http.Json;
 using AuctionService.Data;
 using AuctionService.DTOs;
-using AuctionService.IntegrationTests.Util;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AuctionService.IntegrationTests;
