@@ -2,8 +2,9 @@
 import React from 'react'
 import Image from 'next/image'
 import CountdownTimer from './CountdownTimer'
+import { Auction } from '../types'
 type Props = {
-    auction: any
+    auction: Auction
 }
 export default function AuctionCard({auction} : Props) {
   return (
