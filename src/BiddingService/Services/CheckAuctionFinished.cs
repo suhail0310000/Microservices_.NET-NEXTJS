@@ -35,7 +35,7 @@ public class CheckAuctionFinished : BackgroundService
             .Match(x => x.AuctionEnd <= DateTime.UtcNow)
             .Match(x => !x.Finished)
             .ExecuteAsync(stoppingToken);
-
+        
         if (finishedAuctions.Count == 0) return;
 
         _logger.LogInformation("==> Found {count} auctions that have completed", finishedAuctions.Count);
