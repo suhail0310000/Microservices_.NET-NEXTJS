@@ -516,3 +516,7 @@ x86/
 # ReSharper is a .NET coding add-in
 _ReSharper.*
 *.[Rr]esharper
+.vs/*
+.github/*
+.devcontainer/*
+.vs\*
