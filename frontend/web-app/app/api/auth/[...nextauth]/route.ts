@@ -23,7 +23,11 @@
 
 import NextAuth, { NextAuthOptions } from "next-auth"
 import DuendeIdentityServer6 from 'next-auth/providers/duende-identity-server6';
+import { custom } from 'openid-client';
 
+custom.setHttpOptionsDefaults({
+  timeout: 5000,
+});
 export const authOptions: NextAuthOptions = {
     session: {
         strategy: 'jwt'
