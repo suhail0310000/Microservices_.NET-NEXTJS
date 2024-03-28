@@ -19,7 +19,9 @@ export default function AuctionCard({ auction }: Props) {
                         <CountdownTimer auctionEnd={auction.auctionEnd} />
                     </div>
                     <div className='absolute top-2 right-2'>
-                        <CurrentBid reservePrice={auction.reservePrice} amount={auction.currentHighBid} />
+                        <CurrentBid 
+                            reservePrice={auction.reservePrice} 
+                            amount={auction.currentHighBid} />
                     </div>
                 </div>
             </div>
