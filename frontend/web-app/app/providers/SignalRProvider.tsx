@@ -20,18 +20,15 @@ export default function SignalRProvider({ children, user }: Props) {
     const [connection, setConnection] = useState<HubConnection | null>(null);
     const setCurrentPrice = useAuctionStore(state => state.setCurrentPrice);
     const addBid = useBidStore(state => state.addBid);
-    const apiUrl = process.env.NODE_ENV === 'production' 
-        ? 'https://api.carsties.store/notifications'
-        : process.env.NEXT_PUBLIC_NOTIFY_URL
 
     useEffect(() => {
         const newConnection = new HubConnectionBuilder()
-            .withUrl(apiUrl!)
+            .withUrl('http://localhost:6001/notifications')
             .withAutomaticReconnect()
             .build();
 
         setConnection(newConnection);
-    }, [apiUrl]);
+    }, []);
 
     useEffect(() => {
         if (connection) {
@@ -73,7 +70,7 @@ export default function SignalRProvider({ children, user }: Props) {
         return () => {
             connection?.stop();
         }
-    }, [connection, setCurrentPrice, addBid, user?.username])
+    }, [connection, setCurrentPrice])
 
     return (
         children

@@ -1,20 +1,17 @@
 import NextAuth, { NextAuthOptions } from "next-auth"
 import DuendeIdentityServer6 from 'next-auth/providers/duende-identity-server6';
-import { custom } from 'openid-client';
 
-custom.setHttpOptionsDefaults({
-  timeout: 5000,
-});
 export const authOptions: NextAuthOptions = {
     session: {
         strategy: 'jwt'
     },
+    secret: "blbl",
     providers: [
         DuendeIdentityServer6({
             id: 'id-server',
             clientId: 'nextApp',
             clientSecret: 'secret',
-            issuer: process.env.ID_URL,
+            issuer: 'http://localhost:5000',
             authorization: {params: {scope: 'openid profile auctionApp'}},
             idToken: true
         })
