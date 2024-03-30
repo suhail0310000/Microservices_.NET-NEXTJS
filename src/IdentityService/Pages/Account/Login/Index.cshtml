@@ -13,7 +13,7 @@
                     <div class="card-header">
                         <h2>Login</h2>
                     </div>
-                    you are now log
+
                     <div class="card-body">
                         <form asp-page="/Account/Login/Index">
                             <input type="hidden" asp-for="Input.ReturnUrl" />
@@ -26,7 +26,7 @@
                                 <label asp-for="Input.Password"></label>
                                 <input type="password" class="form-control" placeholder="Password" asp-for="Input.Password" autocomplete="off">
                             </div>
-
+                            
                             @if (Model.View.AllowRememberLogin)
                             {
                                 <div class="form-group">
@@ -42,7 +42,7 @@
                             <a class="pb-2 d-block" asp-page="../Register/Index" asp-route-returnUrl="@Model.Input.ReturnUrl">
                                 New User? Register here
                             </a>
-
+                            
                             <button class="btn btn-primary" name="Input.Button" value="login">Login</button>
                             <button class="btn btn-secondary" name="Input.Button" value="cancel">Cancel</button>
                         </form>

@@ -1,32 +1,23 @@
-using MongoDB.Driver;
-using MongoDB.Entities;
-using Polly.Extensions.Http;
-using Polly;
-using SearchService.Data;
-using SearchService.Models;
-using SearchService.Services;
 using System.Net;
 using MassTransit;
-using SearchService.Consumers;
+using Polly;
+using Polly.Extensions.Http;
+using SearchService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowSpecificOrigin",
-        builder => builder.WithOrigins("http://localhost:3000") // Only allow this specific origin which includes the port
-                          .AllowAnyHeader()
-                          .AllowAnyMethod());
-});
+
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddHttpClient<AuctionSvcHttpClient>().AddPolicyHandler(GetPolicy());
-builder.Services.AddMassTransit(x =>
+builder.Services.AddMassTransit(x => 
 {
     x.AddConsumersFromNamespaceContaining<AuctionCreatedConsumer>();
-    x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("search",false));
-    x.UsingRabbitMq((context, cfg) =>
+
+    x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("search", false));
+
+    x.UsingRabbitMq((context, cfg) => 
     {
         cfg.Host(builder.Configuration["RabbitMq:Host"], "/", host =>
         {
@@ -34,22 +25,20 @@ builder.Services.AddMassTransit(x =>
             host.Password(builder.Configuration.GetValue("RabbitMq:Password", "guest"));
         });
 
-        cfg.ReceiveEndpoint("search-auction-create", e =>
+        cfg.ReceiveEndpoint("search-auction-created", e => 
         {
             e.UseMessageRetry(r => r.Interval(5, 5));
 
             e.ConfigureConsumer<AuctionCreatedConsumer>(context);
         });
+
         cfg.ConfigureEndpoints(context);
     });
 });
+
 var app = builder.Build();
 
-
-app.UseCors("AllowSpecificOrigin");
-
 // Configure the HTTP request pipeline.
-
 app.UseAuthorization();
 
 app.MapControllers();
@@ -65,6 +54,7 @@ app.Lifetime.ApplicationStarted.Register(async () =>
         Console.WriteLine(e);
     }
 });
+
 app.Run();
 
 static IAsyncPolicy<HttpResponseMessage> GetPolicy()

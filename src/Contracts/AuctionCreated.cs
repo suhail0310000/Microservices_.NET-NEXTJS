@@ -1,5 +1,5 @@
 ﻿namespace Contracts;
-//Remember to use the same namespace for the events, because it its required by MassTransit
+
 public class AuctionCreated
 {
     public Guid Id { get; set; }
