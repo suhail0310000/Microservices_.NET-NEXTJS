@@ -9,7 +9,6 @@ export const authOptions: NextAuthOptions = {
     session: {
         strategy: 'jwt'
     },
-    secret:'blabla',
     providers: [
         DuendeIdentityServer6({
             id: 'id-server',
