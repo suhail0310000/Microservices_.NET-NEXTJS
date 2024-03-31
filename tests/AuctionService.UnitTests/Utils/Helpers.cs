@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
 
-namespace AuctionService.UnitTests.Utils
+namespace AuctionService.UnitTests;
+
+public class Helpers
 {
-    public class Helpers
+    public static ClaimsPrincipal GetClaimsPrincipal()
     {
-        //Claim principle that we can pass to our auctions controller to pass authorization
-        public static ClaimsPrincipal GetClaimsPrincipal()
-        {
-            var claims = new List<Claim> { new Claim(ClaimTypes.Name, "test") };
-            var identity = new ClaimsIdentity(claims, "testing");
-            return new ClaimsPrincipal(identity);
-        }
+        var claims = new List<Claim>{new Claim(ClaimTypes.Name, "test")};
+        var identity = new ClaimsIdentity(claims, "testing");
+        return new ClaimsPrincipal(identity);
     }
 }

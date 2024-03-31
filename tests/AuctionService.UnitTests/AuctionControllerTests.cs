@@ -1,9 +1,7 @@
 ﻿using AuctionService.Controllers;
-using AuctionService.Data;
 using AuctionService.DTOs;
 using AuctionService.Entities;
 using AuctionService.RequestHelpers;
-using AuctionService.UnitTests.Utils;
 using AutoFixture;
 using AutoMapper;
 using MassTransit;
@@ -20,6 +18,7 @@ public class AuctionControllerTests
     private readonly Fixture _fixture;
     private readonly AuctionsController _controller;
     private readonly IMapper _mapper;
+
     public AuctionControllerTests()
     {
         _fixture = new Fixture();
@@ -122,7 +121,6 @@ public class AuctionControllerTests
     public async Task UpdateAuction_WithUpdateAuctionDto_ReturnsOkResponse()
     {
         // arrange
-        //TODO: SPØR SPØRSMÅL OG DE TO FØRSTE SETNINGENE
         var auction = _fixture.Build<Auction>().Without(x => x.Item).Create();
         auction.Item = _fixture.Build<Item>().Without(x => x.Auction).Create();
         auction.Seller = "test";
@@ -135,14 +133,13 @@ public class AuctionControllerTests
         var result = await _controller.UpdateAuction(auction.Id, updateDto);
 
         // assert
-        Assert.IsType<OkResult>(result);
+        Assert.IsType<OkResult>(result);  
     }
-
 
     [Fact]
     public async Task UpdateAuction_WithInvalidUser_Returns403Forbid()
     {
-        // arrange
+         // arrange
         var auction = _fixture.Build<Auction>().Without(x => x.Item).Create();
         auction.Seller = "not-test";
         var updateDto = _fixture.Create<UpdateAuctionDto>();
@@ -153,7 +150,7 @@ public class AuctionControllerTests
         var result = await _controller.UpdateAuction(auction.Id, updateDto);
 
         // assert
-        Assert.IsType<ForbidResult>(result);
+        Assert.IsType<ForbidResult>(result);  
     }
 
     [Fact]
@@ -187,7 +184,7 @@ public class AuctionControllerTests
         var result = await _controller.DeleteAuction(auction.Id);
 
         // assert
-        Assert.IsType<OkResult>(result);
+        Assert.IsType<OkResult>(result);  
     }
 
     [Fact]
@@ -195,23 +192,22 @@ public class AuctionControllerTests
     {
         // arrange
         var auction = _fixture.Build<Auction>().Without(x => x.Item).Create();
-
         _auctionRepo.Setup(repo => repo.GetAuctionEntityById(It.IsAny<Guid>()))
-            .ReturnsAsync(value : null);
+            .ReturnsAsync(value: null);
 
         // act
         var result = await _controller.DeleteAuction(auction.Id);
 
         // assert
-        Assert.IsType<NotFoundResult>(result);  
+        Assert.IsType<NotFoundResult>(result); 
     }
 
     [Fact]
-    public async Task DeleteAuction_WithInvaliUser_Returns403Response()
+    public async Task DeleteAuction_WithInvalidUser_Returns403Response()
     {
         // arrange
         var auction = _fixture.Build<Auction>().Without(x => x.Item).Create();
-        auction.Seller = "no - test";
+        auction.Seller = "not-test";
         _auctionRepo.Setup(repo => repo.GetAuctionEntityById(It.IsAny<Guid>()))
             .ReturnsAsync(auction);
 
@@ -219,8 +215,6 @@ public class AuctionControllerTests
         var result = await _controller.DeleteAuction(auction.Id);
 
         // assert
-        Assert.IsType<ForbidResult>(result);
+        Assert.IsType<ForbidResult>(result); 
     }
-
-
 }

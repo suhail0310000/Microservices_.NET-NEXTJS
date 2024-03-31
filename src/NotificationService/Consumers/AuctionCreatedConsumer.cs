@@ -1,7 +1,6 @@
 ﻿using Contracts;
 using MassTransit;
 using Microsoft.AspNetCore.SignalR;
-using NotificationService.Hubs;
 
 namespace NotificationService;
 
