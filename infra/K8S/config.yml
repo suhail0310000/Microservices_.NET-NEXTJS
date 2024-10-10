@@ -54,6 +54,7 @@ kind: ConfigMap
 metadata:
   name: gateway-svc-config
 data:
+  ASPNETCORE_URLS: http://+:80
   ClientApp: https://app.carsties.com
   IdentityServiceUrl: http://identity-clusterip
 ---
@@ -76,6 +77,6 @@ data:
   NEXTAUTH_URL: https://app.carsties.com
   NEXTAUTH_URL_INTERNAL: http://webapp-clusterip:3000
   API_URL: http://gateway-clusterip/
-  ID_URL: http://id.carsties.com
-  NEXT_PUBLIC_NOTIFY_URL: https://gateway-clusterip/notifications
+  ID_URL: https://id.carsties.com
+  NEXT_PUBLIC_NOTIFY_URL: https://gateway-clusterip
 
