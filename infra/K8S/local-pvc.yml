@@ -33,4 +33,3 @@ spec:
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
-
